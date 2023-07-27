@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Gallery</title>
+  <style>
+    /* Estilos para la galería */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .pokemon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .pokemon img {
+      width: 100px;
+      height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pokémon Gallery</h1>
+  <div class="gallery" id="pokemon-gallery">
+    <!-- Los elementos se agregarán dinámicamente aquí -->
+  </div>
+  <script>
+    // JavaScript para obtener la data de los pokemones y mostrarlos en la galería
+    fetch('/pokemones')
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('pokemon-gallery');
+        data.forEach(pokemon => {
+          const pokemonDiv = document.createElement('div');
+          pokemonDiv.classList.add('pokemon');
+          const name = document.createElement('p');
+          name.textContent = pokemon.name;
+          const img = document.createElement('img');
+          img.src = pokemon.image;
+          pokemonDiv.appendChild(name);
+          pokemonDiv.appendChild(img);
+          gallery.appendChild(pokemonDiv);
+        });
+      })
+      .catch(error => console.error('Error fetching Pokémon data:', error));
+  </script>
+</body>
+</html>
